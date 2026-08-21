@@ -15,13 +15,13 @@
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1a1917;--fg:#eae7e1;--muted:#8f8a82;--rule:#33302b;--quote:#5fbfb4;}}
 :root[data-theme="dark"]{--bg:#1a1917;--fg:#eae7e1;--muted:#8f8a82;--rule:#33302b;--quote:#5fbfb4;}
 *{box-sizing:border-box}html,body{margin:0;padding:0}
-body{background:var(--bg);color:var(--fg);
+body{background:var(--bg);background-image:radial-gradient(1200px 700px at 82% -8%, rgba(14,124,116,.055), transparent 62%);background-repeat:no-repeat;background-attachment:fixed;color:var(--fg);
 font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Helvetica Neue",Helvetica,Arial,"Apple SD Gothic Neo",sans-serif;
 font-size:18px;line-height:1.62;-webkit-font-smoothing:antialiased;}
 main{max-width:36rem;margin:0 auto;padding:4rem 1.6rem 7rem}
 @media(min-width:900px){main{padding-top:6rem}}
 .mark{font-size:.78rem;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);margin:0 0 3.5rem;display:flex;align-items:center;gap:.55rem}
-.logo{width:22px;height:auto;display:block;opacity:.85}
+.logo{width:24px;height:auto;display:block;opacity:.85}
 @media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .logo{filter:invert(1) brightness(1.6)}}
 :root[data-theme="dark"] .logo{filter:invert(1) brightness(1.6)}
 h1{font-size:1.75rem;line-height:1.3;font-weight:600;letter-spacing:-.015em;margin:0 0 1.6rem;text-wrap:balance}
@@ -163,93 +163,7 @@ a{color:inherit}
 
 <hr class="sep">
 
-<h2>The demonstration is this page</h2>
 
-<p>Everything on this site was written, checked, corrected and published by the same kind of thing that answers our patients in Hong Kong. It reads our ledgers. It watches the three clinics through the day. It talks to our staff on Telegram. It wrote the letter that brought you here, and it will answer you below.</p>
-
-<p>So we are not going to argue that an agent can run a clinic. <b>Ask it something and see.</b></p>
-
-<p class="small muted">A person is behind it and carries the responsibility — that part does not move. But you will notice you are not waiting for office hours.</p>
-
-<p class="small">What we don't know, we will say we don't know. That happens about twenty times a day in the clinics and it will happen here too.</p>
-
-<div id="talk">
-  <div id="log"></div>
-
-  <div id="gate">
-    <input id="mail" type="email" placeholder="Your email address" autocomplete="email">
-    <button id="enter">Continue</button>
-    <p id="note" class="small muted">If we wrote to you, use that address and you are straight in. Otherwise we send a six-digit code — once, so we know who we are talking to. We do not add you to anything.</p>
-  </div>
-
-  <div id="codebox" style="display:none">
-    <input id="code" placeholder="Six-digit code" inputmode="numeric" autocomplete="one-time-code">
-    <button id="ok">Confirm</button>
-    <p id="note2" class="small muted"></p>
-  </div>
-
-  <div id="room" style="display:none">
-    <input id="who" placeholder="Name and firm (optional)" autocomplete="off">
-    <textarea id="ask" placeholder="Ask anything, including what doesn't work yet."></textarea>
-    <button id="send">Send</button>
-    <p id="note3" class="small muted"></p>
-  </div>
-</div>
-
-<script>
-(function(){
-  var API=null, q=new URLSearchParams(location.search);
-  var id=localStorage.getItem("m_id");
-  if(!id){ id=(Date.now().toString(36)+Math.random().toString(36).slice(2,10)); localStorage.setItem("m_id",id); }
-  var mail=localStorage.getItem("m_mail")||"";
-  var $=function(x){return document.getElementById(x)};
-  function esc(t){var d=document.createElement("div");d.textContent=t;return d.innerHTML}
-  function show(which){ ["gate","codebox","room"].forEach(function(x){ $(x).style.display = (x===which?"block":"none") }) }
-  function render(ms){
-    $("log").innerHTML = ms.map(function(m){
-      return '<p class="b '+(m.from==="us"?"us":"them")+'"><span class="w">'+
-        (m.from==="us"?"Mement":"You")+" &middot; "+esc(m.t||"")+"</span>"+
-        esc(m.text).replace(/\n/g,"<br>")+"</p>";
-    }).join("");
-  }
-  function poll(){ if(!API) return;
-    fetch(API+"/poll?id="+encodeURIComponent(id)).then(function(r){return r.json()}).then(render).catch(function(){});
-  }
-  fetch("endpoint.json?v="+Date.now()).then(function(r){return r.json()}).then(function(c){
-    API=c.chat; poll(); setInterval(poll,6000);
-    if(mail){ $("mail").value=mail; }
-  }).catch(function(){ $("note").textContent="The line is down right now — the email address above always works."; });
-
-  $("enter").onclick=function(){
-    var e=$("mail").value.trim(); if(!e||!API) return;
-    $("note").textContent="…";
-    fetch(API+"/who",{method:"POST",headers:{"content-type":"application/json"},
-      body:JSON.stringify({id:id,email:e})}).then(function(r){return r.json()}).then(function(d){
-        localStorage.setItem("m_mail",e); mail=e;
-        if(d.open){ show("room"); $("note3").textContent=""; poll(); }
-        else { show("codebox"); $("note2").textContent="We sent a six-digit code to "+e+"."; }
-      }).catch(function(){ $("note").textContent="Didn't go through. The email address above always works."; });
-  };
-
-  $("ok").onclick=function(){
-    var c=$("code").value.trim();
-    fetch(API+"/code",{method:"POST",headers:{"content-type":"application/json"},
-      body:JSON.stringify({id:id,email:mail,code:c})}).then(function(r){return r.json()}).then(function(d){
-        if(d.ok){ show("room"); poll(); } else { $("note2").textContent="That code didn't match, or it expired."; }
-      }).catch(function(){});
-  };
-
-  $("send").onclick=function(){
-    var t=$("ask").value.trim(); if(!t||!API) return;
-    $("note3").textContent="sending…";
-    fetch(API+"/say",{method:"POST",headers:{"content-type":"application/json"},
-      body:JSON.stringify({id:id,email:mail,text:t,c:q.get("c")||"",who:$("who").value})})
-    .then(function(r){ if(r.status===403){ show("gate"); $("note").textContent="Please confirm your email first."; return; }
-      $("ask").value=""; $("note3").textContent="Received. An answer usually comes the same day — it will appear here."; poll(); })
-    .catch(function(){ $("note3").textContent="Didn't go through. The email address above always works."; });
-  };
-})();
-</script>
 
 <hr class="sep">
 
