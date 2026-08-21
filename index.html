@@ -42,9 +42,11 @@ a{color:inherit}
 
 .board{border:1px solid var(--rule);border-radius:10px;padding:1.05rem 1.15rem;margin:0 0 2rem;
   background:linear-gradient(180deg, rgba(14,124,116,.045), transparent 70%)}
+a.row{text-decoration:none}
+a.row:hover .pl{color:var(--quote)}
 .row{display:flex;align-items:center;gap:.6rem;padding:.34rem 0;font-size:.82rem;
   font-variant-numeric:tabular-nums;letter-spacing:.02em}
-.pl{color:var(--fg);min-width:8.6rem;font-weight:600;letter-spacing:.09em;font-size:.72rem}
+.pl{color:var(--fg);min-width:9.6rem;font-weight:600;letter-spacing:.09em;font-size:.72rem}
 .ln{color:var(--muted);font-size:.78rem}
 .dot{width:6px;height:6px;border-radius:50%;background:var(--quote);flex:0 0 auto;
   box-shadow:0 0 0 0 rgba(14,124,116,.45);animation:pulse 2.6s ease-out infinite}
@@ -84,11 +86,12 @@ a{color:inherit}
 <h1>Anyone. Healthy. For a long time.</h1>
 <p class="sub">Medicine does not have to be expensive.</p>
 
-<div class="board" aria-hidden="true">
-  <div class="row"><span class="dot"></span><span class="pl">TSIM SHA TSUI</span><span class="ln">Shurink · Potenza · PicoSure</span></div>
-  <div class="row"><span class="dot"></span><span class="pl">CAUSEWAY BAY</span><span class="ln">Ultherapy · Potenza · LDM</span></div>
-  <div class="row"><span class="dot"></span><span class="pl">MONG KOK</span><span class="ln">Ultraformer · Ulfit · PicoPlus</span></div>
-  <div class="foot">three clinics &middot; ten languages &middot; the agent is on</div>
+<div class="board">
+  <a class="row" href="https://museclinic.co.kr"><span class="dot"></span><span class="pl">MUSE CLINIC</span><span class="ln">Korea &middot; since 2011 &middot; 13 clinics</span></a>
+  <a class="row" href="https://shinebeam.co.kr"><span class="dot"></span><span class="pl">SHINEBEAM</span><span class="ln">Korea &middot; 9 clinics &middot; Hong Kong &middot; Vietnam</span></a>
+  <a class="row" href="https://skinbeam.hk"><span class="dot"></span><span class="pl">SKIN &amp; BEAM HK</span><span class="ln">Tsim Sha Tsui &middot; Causeway Bay &middot; Mong Kok &mdash; ours, and where the agent runs</span></a>
+  <div class="foot">Korean aesthetic medicine &middot; fifteen years &middot; 351,793 treatments</div>
+</div>
 </div>
 
 <p class="lede">That is all medicine has ever been trying to do. <b>Anyone</b> is the part we are working on: without insurance, without much money, in your own language, at two in the morning.</p>
