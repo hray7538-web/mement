@@ -105,5 +105,42 @@ a{color:inherit}
 </footer>
 
 </main>
+<script>
+(function(){
+  // 방문 기록. 보내는 곳(ENDPOINT)이 정해지면 그때부터 실제로 나간다.
+  // 그 전까지는 브라우저 안에만 쌓인다. 쿠키를 쓰지 않는다.
+  var ENDPOINT = "";           // 예: https://.../hit  (전무님 쪽에서 지정)
+  var t0 = Date.now(), deep = 0;
+  function depth(){
+    var h = document.documentElement;
+    var p = (h.scrollTop + window.innerHeight) / h.scrollHeight;
+    if (p > deep) deep = p;
+  }
+  addEventListener("scroll", depth, {passive:true}); depth();
+  function payload(){
+    var q = new URLSearchParams(location.search);
+    return {
+      c: q.get("c") || "",                       // 편지마다 붙인 코드
+      ref: document.referrer || "",
+      sec: Math.round((Date.now()-t0)/1000),     // 머문 시간(초)
+      read: Math.round(deep*100),                // 어디까지 내려 읽었나(%)
+      w: innerWidth, tz: Intl.DateTimeFormat().resolvedOptions().timeZone,
+      lang: navigator.language, t: new Date().toISOString()
+    };
+  }
+  addEventListener("visibilitychange", function(){
+    if (document.visibilityState !== "hidden") return;
+    var d = payload();
+    try { localStorage.setItem("m_last", JSON.stringify(d)); } catch(e){}
+    if (ENDPOINT) navigator.sendBeacon(ENDPOINT, JSON.stringify(d));
+  });
+  document.addEventListener("click", function(e){
+    var a = e.target.closest && e.target.closest("a");
+    if (!a) return;
+    var d = payload(); d.clicked = a.getAttribute("href");
+    if (ENDPOINT) navigator.sendBeacon(ENDPOINT, JSON.stringify(d));
+  }, true);
+})();
+</script>
 </body>
 </html>
