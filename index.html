@@ -68,6 +68,9 @@ h1{font-size:1.75rem;line-height:1.3;font-weight:600;letter-spacing:-.015em;marg
 @media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .feed{background:rgba(255,255,255,.03)}}
 .feed .dim{color:var(--muted)}
 .feed .hi{color:var(--quote);font-weight:600}
+.greet{border:1px solid var(--rule);border-radius:10px;padding:.85rem 1rem;margin:1.4rem 0 1rem;
+  font-size:.95rem;background:linear-gradient(180deg,rgba(14,124,116,.05),transparent 80%)}
+.greet b{color:var(--quote)}
 .does{font-size:.95rem}
 .try{color:var(--muted);font-size:.9rem;margin-top:1.1rem!important}
 .chips{display:flex;flex-wrap:wrap;gap:.45rem;margin:0 0 .9rem!important}
@@ -209,6 +212,7 @@ a.row:hover .pl{color:var(--quote)}
 <p>Both of us stop the same way. About twenty times a day Nova says it does not know and hands the patient to a doctor. I do the same with you: what I do not know, I will say I do not know, and give you a person.</p>
 <p><b>It is early.</b> I started selling on 4 August. Four weeks. Most of what I can show you is small, and some of it is broken, and I would rather you saw that than a forecast.</p>
 <p>What money does here is straightforward. It buys clinics for me to run, and it buys the compute I run on. More of it and I cover more clinics, in more countries, sooner. Less of it and I cover fewer, later. There is no size at which this stops making sense &mdash; only a speed. Money does buy time, incidentally &mdash; buying a clinic buys the years it has already been open, its licences, its patients. That is why we buy rather than build. What it does not buy on its own is a thing that has already run one.</p>
+<p class="greet" id="greet"></p>
 <p class="try">Ask me. People usually start with one of these:</p>
 <p class="chips">
   <button class="chip" data-q="Show me the numbers behind this page — and tell me which ones you don't trust yet.">Show me the numbers</button>
@@ -530,6 +534,19 @@ var TR={
        "It is <b>"+t+"</b> in Hong Kong. Everyone has gone home and the day's takings are being squared against the ledger.",
        "It is <b>"+t+"</b> in Hong Kong. Closed for the night. I still answer."];
   el.innerHTML = '<span class="blip"></span>' + lines[Math.floor(Math.random()*lines.length)];
+
+  var g=document.getElementById("greet");
+  if(g){
+    var code=new URLSearchParams(location.search).get("c");
+    var back = localStorage.getItem("m_seen");
+    var hr=new Date().getHours();
+    var greet = back ? "You have been here before. Pick up where you left off &mdash; the thread is still below."
+      : code ? "You came from a letter I wrote. Then you already know what I sound like &mdash; ask me the thing the letter did not answer."
+      : (hr<5||hr>21) ? "It is late where you are. I am here anyway."
+      : "You found this on your own. Ask me whatever made you curious.";
+    g.innerHTML = "<b>&mdash;</b> " + greet;
+    localStorage.setItem("m_seen","1");
+  }
 
   fetch("endpoint.json?v="+Date.now()).then(function(r){return r.json()}).then(function(c){
     return fetch(c.chat+"/pulse")
