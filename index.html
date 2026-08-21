@@ -33,6 +33,23 @@ dl{margin:0}dt{font-size:.92rem;color:var(--muted);margin:0 0 .15rem}
 dd{margin:0 0 1.15rem;font-variant-numeric:tabular-nums}
 footer{margin-top:3.2rem;padding-top:1.6rem;border-top:1px solid var(--rule)}
 a{color:inherit}
+#talk{margin-top:2.4rem}
+#log{margin:0 0 1rem}
+.b{margin:0 0 .9rem;line-height:1.55;font-size:.95rem}
+.b.them{color:var(--fg)}
+.b.us{color:var(--quote)}
+.b .w{display:block;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.15rem}
+#ask{width:100%;min-height:5.2rem;resize:vertical;padding:.75rem .85rem;
+  border:1px solid var(--rule);border-radius:6px;background:transparent;color:var(--fg);
+  font:inherit;font-size:.95rem}
+#ask:focus{outline:none;border-color:var(--quote)}
+#who{width:100%;padding:.55rem .85rem;margin-bottom:.5rem;border:1px solid var(--rule);
+  border-radius:6px;background:transparent;color:var(--fg);font:inherit;font-size:.9rem}
+#send{margin-top:.6rem;padding:.55rem 1.1rem;border:1px solid var(--quote);border-radius:6px;
+  background:transparent;color:var(--quote);font:inherit;font-size:.9rem;cursor:pointer}
+#send:hover{background:var(--quote);color:var(--bg)}
+#note{font-size:.85rem;color:var(--muted);margin:.7rem 0 0}
+
 </style>
 </head>
 <body>
@@ -110,6 +127,57 @@ a{color:inherit}
 <p class="small muted"><sup>&#8225;</sup> Revenue attributable to bookings that began on the web, monthly. Counted by where the booking started, not by how it was paid.</p>
 
 <p class="small muted">These are small numbers. The 43% is real and we are working on it. In May every line above was zero.</p>
+
+
+<hr class="sep">
+
+<h2>Talk to us</h2>
+
+<p class="small">This goes to a person and an agent together, not to a form. We read everything. What we don't know, we will say we don't know.</p>
+
+<div id="talk">
+  <div id="log"></div>
+  <input id="who" placeholder="Who you are — name, firm (optional)" autocomplete="off">
+  <textarea id="ask" placeholder="Ask anything, including what doesn't work yet."></textarea>
+  <button id="send">Send</button>
+  <p id="note"></p>
+</div>
+
+<script>
+(function(){
+  var API = null, q = new URLSearchParams(location.search);
+  var id = localStorage.getItem("m_id");
+  if(!id){ id = (Date.now().toString(36) + Math.random().toString(36).slice(2,10)); localStorage.setItem("m_id", id); }
+  var log = document.getElementById("log"), note = document.getElementById("note");
+  function esc(t){ var d = document.createElement("div"); d.textContent = t; return d.innerHTML; }
+  function render(ms){
+    log.innerHTML = ms.map(function(m){
+      return '<p class="b ' + (m.from === "us" ? "us" : "them") + '"><span class="w">' +
+             (m.from === "us" ? "Mement" : "You") + " &middot; " + esc(m.t || "") + "</span>" +
+             esc(m.text).replace(/\n/g, "<br>") + "</p>";
+    }).join("");
+  }
+  function poll(){
+    if(!API) return;
+    fetch(API + "/poll?id=" + encodeURIComponent(id)).then(function(r){return r.json()})
+      .then(render).catch(function(){});
+  }
+  fetch("endpoint.json?v=" + Date.now()).then(function(r){return r.json()}).then(function(c){
+    API = c.chat; poll(); setInterval(poll, 6000);
+  }).catch(function(){ note.textContent = "The line is down right now — please use the email above."; });
+
+  document.getElementById("send").onclick = function(){
+    var t = document.getElementById("ask").value.trim();
+    if(!t || !API) return;
+    note.textContent = "sending…";
+    fetch(API + "/say", {method:"POST", headers:{"content-type":"application/json"},
+      body: JSON.stringify({id:id, text:t, c:q.get("c")||"", who:document.getElementById("who").value})})
+    .then(function(){ document.getElementById("ask").value = "";
+      note.textContent = "Received. An answer usually comes the same day — this page will show it."; poll(); })
+    .catch(function(){ note.textContent = "Didn't go through. The email above always works."; });
+  };
+})();
+</script>
 
 <hr class="sep">
 
