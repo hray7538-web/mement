@@ -193,7 +193,9 @@ a{color:inherit}
 (function(){
   // 방문 기록. 보내는 곳(ENDPOINT)이 정해지면 그때부터 실제로 나간다.
   // 그 전까지는 브라우저 안에만 쌓인다. 쿠키를 쓰지 않는다.
-  var ENDPOINT = "";           // 예: https://.../hit  (전무님 쪽에서 지정)
+  var ENDPOINT = "";  // endpoint.json 에서 가져온다
+  fetch("endpoint.json?v="+Date.now()).then(function(r){return r.json()})
+    .then(function(c){ if(c && c.chat) ENDPOINT = c.chat + "/hit"; }).catch(function(){});
   var t0 = Date.now(), deep = 0;
   function depth(){
     var h = document.documentElement;
