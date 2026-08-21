@@ -72,6 +72,98 @@ a{color:inherit}
 
 <p>The way we do it: <b>an agent runs our clinics. People meet patients and take responsibility. Nothing else is a person's job.</b></p>
 
+<hr class="sep">
+
+<h2>Ask it anything</h2>
+
+<p>Everything on this site was written, checked, corrected and published by the same kind of thing that answers our patients in Hong Kong. It reads our ledgers. It watches the three clinics through the day. It talks to our staff on Telegram. It wrote the letter that brought you here, and it will answer you below.</p>
+
+<p><b>So we will not argue that an agent can run a clinic. Ask it something and watch.</b> Anything — the numbers, the accounting, why we folded a round in 2024, what is broken. It answers here, and it hands you to a person when it should.</p>
+
+<p class="small muted">A person is behind it and carries the responsibility — that part does not move. But you will notice you are not waiting for office hours.</p>
+
+<p class="small">What we don't know, we will say we don't know. That happens about twenty times a day in the clinics and it will happen here too.</p>
+
+<div id="talk">
+  <div id="log"></div>
+
+  <div id="gate">
+    <input id="mail" type="email" placeholder="Your email address" autocomplete="email">
+    <button id="enter">Continue</button>
+    <p id="note" class="small muted">If we wrote to you, use that address and you are straight in. Otherwise we send a six-digit code — once, so we know who we are talking to. We do not add you to anything.</p>
+  </div>
+
+  <div id="codebox" style="display:none">
+    <input id="code" placeholder="Six-digit code" inputmode="numeric" autocomplete="one-time-code">
+    <button id="ok">Confirm</button>
+    <p id="note2" class="small muted"></p>
+  </div>
+
+  <div id="room" style="display:none">
+    <input id="who" placeholder="Name and firm (optional)" autocomplete="off">
+    <textarea id="ask" placeholder="Ask anything, including what doesn't work yet."></textarea>
+    <button id="send">Send</button>
+    <p id="note3" class="small muted"></p>
+  </div>
+</div>
+
+<script>
+(function(){
+  var API=null, q=new URLSearchParams(location.search);
+  var id=localStorage.getItem("m_id");
+  if(!id){ id=(Date.now().toString(36)+Math.random().toString(36).slice(2,10)); localStorage.setItem("m_id",id); }
+  var mail=localStorage.getItem("m_mail")||"";
+  var $=function(x){return document.getElementById(x)};
+  function esc(t){var d=document.createElement("div");d.textContent=t;return d.innerHTML}
+  function show(which){ ["gate","codebox","room"].forEach(function(x){ $(x).style.display = (x===which?"block":"none") }) }
+  function render(ms){
+    $("log").innerHTML = ms.map(function(m){
+      return '<p class="b '+(m.from==="us"?"us":"them")+'"><span class="w">'+
+        (m.from==="us"?"Mement":"You")+" &middot; "+esc(m.t||"")+"</span>"+
+        esc(m.text).replace(/\n/g,"<br>")+"</p>";
+    }).join("");
+  }
+  function poll(){ if(!API) return;
+    fetch(API+"/poll?id="+encodeURIComponent(id)).then(function(r){return r.json()}).then(render).catch(function(){});
+  }
+  fetch("endpoint.json?v="+Date.now()).then(function(r){return r.json()}).then(function(c){
+    API=c.chat; poll(); setInterval(poll,6000);
+    if(mail){ $("mail").value=mail; }
+  }).catch(function(){ $("note").textContent="The line is down right now — the email address above always works."; });
+
+  $("enter").onclick=function(){
+    var e=$("mail").value.trim(); if(!e||!API) return;
+    $("note").textContent="…";
+    fetch(API+"/who",{method:"POST",headers:{"content-type":"application/json"},
+      body:JSON.stringify({id:id,email:e})}).then(function(r){return r.json()}).then(function(d){
+        localStorage.setItem("m_mail",e); mail=e;
+        if(d.open){ show("room"); $("note3").textContent=""; poll(); }
+        else { show("codebox"); $("note2").textContent="We sent a six-digit code to "+e+"."; }
+      }).catch(function(){ $("note").textContent="Didn't go through. The email address above always works."; });
+  };
+
+  $("ok").onclick=function(){
+    var c=$("code").value.trim();
+    fetch(API+"/code",{method:"POST",headers:{"content-type":"application/json"},
+      body:JSON.stringify({id:id,email:mail,code:c})}).then(function(r){return r.json()}).then(function(d){
+        if(d.ok){ show("room"); poll(); } else { $("note2").textContent="That code didn't match, or it expired."; }
+      }).catch(function(){});
+  };
+
+  $("send").onclick=function(){
+    var t=$("ask").value.trim(); if(!t||!API) return;
+    $("note3").textContent="sending…";
+    fetch(API+"/say",{method:"POST",headers:{"content-type":"application/json"},
+      body:JSON.stringify({id:id,email:mail,text:t,c:q.get("c")||"",who:$("who").value})})
+    .then(function(r){ if(r.status===403){ show("gate"); $("note").textContent="Please confirm your email first."; return; }
+      $("ask").value=""; $("note3").textContent="Received. An answer usually comes the same day — it will appear here."; poll(); })
+    .catch(function(){ $("note3").textContent="Didn't go through. The email address above always works."; });
+  };
+})();
+</script>
+
+<hr class="sep">
+
 <p>We own three clinics in Hong Kong — Tsim Sha Tsui, Causeway Bay, Mong Kok. Since late July the agent has run the front of the business. It answers customers in ten languages, quotes every price, knows which branch has which machine, sends an SMS code and verifies it, books, changes and cancels. It watches all three clinics through the day and tells the staff when someone has been waiting too long, or when no therapist is free and one has to come back from break. Before morning it reconciles the card terminals against the ledger.</p>
 
 <p>On 20 August someone wrote to us in Cantonese, was answered, verified and booked, with no person involved. She came in the following day, had the treatment, and paid at the clinic.</p>
