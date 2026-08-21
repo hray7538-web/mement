@@ -4,53 +4,50 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Mement</title>
+<meta name="description" content="We own and run clinics. The machine runs the operation. People meet and take responsibility.">
 <style>
-:root{
-  --bg:#fbfaf8; --fg:#16150f; --muted:#6b675c; --rule:#e3ded2; --quote:#0f4c3a;
-}
-@media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]){
-    --bg:#12110e; --fg:#eceae3; --muted:#918c7f; --rule:#2d2a24; --quote:#7fc9ad;
-  }
-}
-:root[data-theme="dark"]{
-  --bg:#12110e; --fg:#eceae3; --muted:#918c7f; --rule:#2d2a24; --quote:#7fc9ad;
-}
-*{box-sizing:border-box}
-html,body{margin:0;padding:0}
-body{
-  background:var(--bg); color:var(--fg);
-  font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,"Times New Roman",serif;
-  font-size:19px; line-height:1.62; -webkit-font-smoothing:antialiased;
-}
-main{max-width:34rem; margin:0 auto; padding:5rem 1.5rem 7rem}
-h1{
-  font-size:1.6rem; line-height:1.35; font-weight:600; letter-spacing:-.01em;
-  margin:0 0 3.2rem; text-wrap:balance;
-}
+:root{--bg:#fbfaf8;--fg:#16150f;--muted:#6b675c;--rule:#e3ded2;--quote:#0f4c3a;}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#12110e;--fg:#eceae3;--muted:#918c7f;--rule:#2d2a24;--quote:#7fc9ad;}}
+:root[data-theme="dark"]{--bg:#12110e;--fg:#eceae3;--muted:#918c7f;--rule:#2d2a24;--quote:#7fc9ad;}
+*{box-sizing:border-box}html,body{margin:0;padding:0}
+body{background:var(--bg);color:var(--fg);
+font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,"Times New Roman",serif;
+font-size:19px;line-height:1.62;-webkit-font-smoothing:antialiased;}
+main{max-width:34rem;margin:0 auto;padding:3.5rem 1.5rem 7rem}
+.mark{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+font-size:.78rem;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);margin:0 0 3.5rem}
+h1{font-size:1.6rem;line-height:1.35;font-weight:600;letter-spacing:-.01em;margin:0 0 2rem;text-wrap:balance}
+h2{font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);
+font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+font-weight:600;margin:0 0 1.2rem}
 p{margin:0 0 1.45rem}
-.sep{border:0; border-top:1px solid var(--rule); margin:3.2rem 0}
-blockquote{
-  margin:1.9rem 0; padding-left:1.1rem; border-left:2px solid var(--rule);
-  color:var(--quote); font-style:italic;
-}
-blockquote p{margin:0 0 1rem}
-blockquote p:last-child{margin:0}
-.muted{color:var(--muted)}
-.small{font-size:.92rem; line-height:1.55}
-.mark{font-weight:600}
-footer{margin-top:3.2rem; padding-top:1.6rem; border-top:1px solid var(--rule)}
+.sep{border:0;border-top:1px solid var(--rule);margin:3.2rem 0}
+blockquote{margin:1.9rem 0;padding-left:1.1rem;border-left:2px solid var(--rule);color:var(--quote);font-style:italic}
+blockquote p{margin:0 0 1rem}blockquote p:last-child{margin:0}
+.muted{color:var(--muted)}.small{font-size:.92rem;line-height:1.55}
+b{font-weight:600}
+dl{margin:0}dt{font-size:.92rem;color:var(--muted);margin:0 0 .15rem}
+dd{margin:0 0 1.15rem;font-variant-numeric:tabular-nums}
+footer{margin-top:3.2rem;padding-top:1.6rem;border-top:1px solid var(--rule)}
 a{color:inherit}
 </style>
 </head>
 <body>
 <main>
 
+<p class="mark">Mement</p>
+
 <h1>People meet and take responsibility.<br>Machines do the rest.</h1>
 
-<p>Yesterday afternoon in Hong Kong, someone wrote to us in Cantonese. Seventeen minutes later, two appointments were booked and paid for.</p>
+<p>We own and run aesthetic-medical clinics. Three of them, in Hong Kong. We are moving to the United States.</p>
 
-<p><span class="mark">No person was involved at any point.</span></p>
+<p class="muted">Medicine is expensive because most of what people did in a clinic was never medicine — and it was priced as if it were. We are not automating care. We are doing the part that was never care.</p>
+
+<hr class="sep">
+
+<h2>Yesterday</h2>
+
+<p>Someone wrote to us in Cantonese. Seventeen minutes later, two appointments were booked and paid for. <b>No person was involved at any point.</b></p>
 
 <p>Here is some of what our machine said during those seventeen minutes.</p>
 
@@ -62,23 +59,32 @@ a{color:inherit}
 
 <p>It quotes every price. It books. It takes payment. It verifies your phone. It answers in seven languages.</p>
 
-<p><span class="mark">It has never once made a medical judgement.</span></p>
+<p><b>It has never once made a medical judgement.</b></p>
 
-<hr class="sep">
+<p>The same machine watches all three clinics. Yesterday it flagged a customer who had been waiting forty-five minutes, and asked a therapist on break to come back because no one was free. It reconciles the day's card terminals against the ledger before morning.</p>
 
-<p>The same machine watches all three of our clinics. Yesterday it flagged a customer who had been waiting forty-five minutes, and asked a therapist on break to come back because no one was free.</p>
-
-<p>Roughly twenty times a day, it raises its hand and says it does not know.</p>
+<p>Roughly twenty times a day it raises its hand and says it does not know.</p>
 
 <p class="muted">That is not a failure rate. It is the line holding.</p>
 
 <hr class="sep">
 
-<p>We run three clinics in Hong Kong. Revenue arriving this way is still about one percent of the total.</p>
+<h2>What it has done so far</h2>
 
-<p><span class="mark">Two months ago it was zero.</span></p>
+<dl>
+<dt>Web chat, first two weeks</dt>
+<dd>2,213 exchanges · 49 appointments booked · 19 of those customers had never been to us before</dd>
+<dt>Cancellations and no-shows on those bookings</dt>
+<dd>43%</dd>
+<dt>Online payments taken, net of refunds</dt>
+<dd>June HK$1,560 · July HK$180,370 · August, through the 19th, HK$259,940</dd>
+<dt>What the machine costs to run</dt>
+<dd>About US$220 a month</dd>
+</dl>
 
-<p class="muted small">Medicine is expensive because most of what people did in a clinic was never medicine — and it was priced as if it were. We are not automating care. We are doing the part that was never care.</p>
+<p class="small muted">These are small numbers and we would rather you saw them than a projection. The 43% is real and we are fixing it. Two months ago every line above was zero.</p>
+
+<hr class="sep">
 
 <footer>
 <p class="small">Ask us anything, including what doesn't work yet. What we don't know, we will say we don't know.</p>
