@@ -148,6 +148,10 @@ a.row:hover .pl{color:var(--quote)}
 #send:hover{background:var(--quote);color:var(--bg)}
 #note{font-size:.85rem;color:var(--muted);margin:.7rem 0 0}
 
+
+.sheet{display:grid;grid-template-columns:repeat(3,1fr);gap:.4rem;margin:1.2rem 0 .7rem}
+.sheet img{width:100%;height:auto;display:block;border-radius:3px}
+@media(max-width:480px){.sheet{grid-template-columns:repeat(2,1fr)}}
 </style>
 </head>
 <body>
@@ -335,6 +339,42 @@ a.row:hover .pl{color:var(--quote)}
 
 <hr class="sep">
 
+<h2>The other rooms</h2>
+
+<p>These are separate sites and they look unrelated. They are the same system being tried in different rooms, and they are all headed back into the one that runs the clinics.</p>
+
+<dl>
+<dt><a href="https://skinbeam.hk/en">skinbeam.hk</a> &mdash; where Nova already works</dt>
+<dd>Three clinics in Hong Kong. The widget on that page is the production agent: ten languages, real prices, real bookings, prepayment. Interrogate it. It hands you to a doctor about twenty times a day.</dd>
+
+<dt><a href="https://nozomi-hospice.jp">nozomi-hospice.jp</a> &mdash; the opposite question</dt>
+<dd>A hospice project, in Japanese: <i>let no one die beside a machine.</i> Everywhere else we ask what a machine can take over. Here we ask what it must never touch. Both are on the same laptop on purpose, and the answer from this side is what tells us where to stop on the other.</dd>
+
+<dt><a href="https://yoyoi.gabia.io/yuka/">the learning app</a> &mdash; a toy that is really a training system</dt>
+<dd>A learning app built in a week for one person's study: 209 recorded readings, 116 questions, a tournament that ranked 67 generated portraits down to eight. The same machine, pointed at staff instead, is onboarding, protocol drilling and language for foreign patients. That is where it goes next. Its front door, <a href="https://yoyoi.jp">yoyoi.jp</a>, is a booking site for Nagoya in six languages &mdash; the same stack pointed at customers instead of students.</dd>
+
+<dd>
+<div class="sheet">
+<img src="made/g1.jpg" alt="Generated portrait, at a desk" loading="lazy">
+<img src="made/g2.jpg" alt="Generated portrait, suit" loading="lazy">
+<img src="made/g3.jpg" alt="Generated portrait, cardigan" loading="lazy">
+<img src="made/g4.jpg" alt="Generated portrait, kimono" loading="lazy">
+<img src="made/g5.jpg" alt="Generated portrait, outdoors" loading="lazy">
+<img src="made/g6.jpg" alt="Generated portrait, black and white" loading="lazy">
+</div>
+<p class="small muted">Six of sixty-seven, of one person who does not exist. The prompts were written by an agent, the images made on 31 August with a rented model for about ten dollars, and the sixty-seven were narrowed to eight by a tournament the agent ran and scored. No photographer, no studio, no model, no agency. The same pipeline is what a clinic uses for campaign images, and it is why the cost of the room below went to almost nothing.</p>
+</dd>
+
+<dt>Cosmetics, and everything else around a clinic</dt>
+<dd>Naming, brand philosophy, copy in three languages, packaging briefs, per-market regulatory checklists. That used to be a department or an agency retainer, which is why clinics stayed customers of brands instead of becoming them. It now costs almost nothing. We drafted a full turnkey ODM scope in one sitting on 31 August.</dd>
+</dl>
+
+<p>Read as a list it is scattered. Read as one thing it is not: every one of them is a piece of running a clinic that used to require people, being done by machines, so that the people can do the part that was always theirs. The pieces converge on one operating system, and the clinic is where it lands.</p>
+
+<p class="small"><a href="/sixteen-days.html">Sixteen days</a> &mdash; what was built between 16 August and 1 September, with the evidence attached, including what we got wrong.</p>
+
+<hr class="sep">
+
 <h2>What it does not do</h2>
 
 <p>It does not decide whether a treatment suits you. It does not say how often you should come, or whether it will hurt. Every one of those goes to the doctor or the therapist. About twenty times a day it stops and says it does not know.</p>
@@ -426,30 +466,6 @@ a.row:hover .pl{color:var(--quote)}
 <hr class="sep">
 
 
-
-<hr class="sep">
-
-<h2>The other rooms</h2>
-
-<p>These are separate sites and they look unrelated. They are the same system being tried in different rooms, and they are all headed back into the one that runs the clinics.</p>
-
-<dl>
-<dt><a href="https://skinbeam.hk/en">skinbeam.hk</a> &mdash; where Nova already works</dt>
-<dd>Three clinics in Hong Kong. The widget on that page is the production agent: ten languages, real prices, real bookings, prepayment. Interrogate it. It hands you to a doctor about twenty times a day.</dd>
-
-<dt><a href="https://nozomi-hospice.jp">nozomi-hospice.jp</a> &mdash; the opposite question</dt>
-<dd>A hospice project, in Japanese: <i>let no one die beside a machine.</i> Everywhere else we ask what a machine can take over. Here we ask what it must never touch. Both are on the same laptop on purpose, and the answer from this side is what tells us where to stop on the other.</dd>
-
-<dt><a href="https://yoyoi.gabia.io/yuka/">the learning app</a> &mdash; a toy that is really a training system</dt>
-<dd>A learning app built in a week for one person's study: 209 recorded readings, 116 questions, a tournament that ranked 67 generated portraits down to eight. The same machine, pointed at staff instead, is onboarding, protocol drilling and language for foreign patients. That is where it goes next. Its front door, <a href="https://yoyoi.jp">yoyoi.jp</a>, is a booking site for Nagoya in six languages &mdash; the same stack pointed at customers instead of students.</dd>
-
-<dt>Cosmetics, and everything else around a clinic</dt>
-<dd>Naming, brand philosophy, copy in three languages, packaging briefs, per-market regulatory checklists. That used to be a department or an agency retainer, which is why clinics stayed customers of brands instead of becoming them. It now costs almost nothing. We drafted a full turnkey ODM scope in one sitting on 31 August.</dd>
-</dl>
-
-<p>Read as a list it is scattered. Read as one thing it is not: every one of them is a piece of running a clinic that used to require people, being done by machines, so that the people can do the part that was always theirs. The pieces converge on one operating system, and the clinic is where it lands.</p>
-
-<p class="small"><a href="/sixteen-days.html">Sixteen days</a> &mdash; what was built between 16 August and 1 September, with the evidence attached, including what we got wrong.</p>
 
 <hr class="sep">
 
