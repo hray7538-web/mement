@@ -30,7 +30,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Anyone. Healthy. For a long time.">
 <meta name="twitter:description" content="Agents run our clinics. Ask ours anything — including what does not work.">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%97%8F%3C/text%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect x='25' y='10' width='14' height='44' rx='2' fill='%230e7c74'/%3E%3C/svg%3E">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Organization","name":"Mement Inc.","url":"https://mement.us/",
 "description":"An agent-run clinic company. Korean aesthetic medicine since 2011; three owned clinics in Hong Kong.",
@@ -159,6 +159,10 @@ a.row:hover .pl{color:var(--quote)}
 .hook{margin:0 0 1.4rem;padding:.85rem 1rem;border-left:3px solid var(--rule);
   background:rgba(127,127,127,.06);font-size:.95rem;line-height:1.6;color:var(--muted)}
 .hook b{color:var(--fg);font-weight:600}
+.cur{display:inline-block;width:.5em;height:1em;background:var(--quote);vertical-align:-.12em;margin-left:2px;border-radius:1px;animation:curblink 1.06s steps(1) infinite}
+@keyframes curblink{50%{opacity:0}}
+@media (prefers-reduced-motion:reduce){.cur{display:none}}
+.mark[hidden]{display:none}
 </style>
 </head>
 <body>
@@ -623,7 +627,16 @@ var TR={
       : code ? "You came from a letter I wrote. Then you already know what I sound like &mdash; ask me the thing the letter did not answer."
       : (hr<5||hr>21) ? "It is late where you are. I am here anyway."
       : "You found this on your own. Ask me whatever made you curious.";
-    g.innerHTML = "<b>&mdash;</b> " + greet;
+    var txt = greet.replace(/&mdash;/g, "\u2014");
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      g.innerHTML = "<b>&mdash;</b> " + greet;
+    } else {
+      g.innerHTML = "<b>&mdash;</b> ";
+      var sp=document.createElement("span"), cur=document.createElement("span");
+      cur.className="cur"; g.appendChild(sp); g.appendChild(cur);
+      var gi=0, giv=setInterval(function(){ gi++; sp.textContent=txt.slice(0,gi);
+        if(gi>=txt.length){ clearInterval(giv); } }, 24);
+    }
     localStorage.setItem("m_seen","1");
   }
 
